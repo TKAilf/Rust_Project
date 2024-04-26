@@ -21,8 +21,25 @@ fn main() {
     }
     let mode = occurrences
         .into_iter()
-        .max_by_key(|&(_, count)| count)
+        .max_by_key(|&( _, count)| count)
         .map(|(val, _)| val)
         .expect("Cannot compute mode for an empty list");
-    print!("Mode: {}", mode);
+    println!("Mode: {}", mode);
+
+    // ターミナルからの入力を受け取る
+    let mut input = String::new();
+    std::io::stdin().read_line(&mut input).expect("Failed to read line");
+    
+    let vowels = ['a', 'e', 'i', 'o', 'u'];
+    let mut result = Vec::new();
+
+    for word in input.trim().split_whitespace() {
+        let first_letter = word.chars().next().unwrap().to_lowercase().to_string();
+        if vowels.contains(&first_letter.chars().next().unwrap()) {
+            result.push(format!("{}-hay", word));
+        }else{
+            result.push(format!("{}-{}ay", &word[1..], word.chars().next().unwrap()));
+        }
+    }
+    println!("Pig Latin: {}", result.join(" "));
 }
