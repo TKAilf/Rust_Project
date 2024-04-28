@@ -42,4 +42,21 @@ fn main() {
         }
     }
     println!("Pig Latin: {}", result.join(" "));
+
+    println!("Add Name:");
+    let mut input_name = String::new();
+    std::io::stdin().read_line(&mut input_name).expect("Failed to read line");
+    let input_name = input_name.trim().split_whitespace();
+    let mut vec_name = Vec::new();
+    vec_name.push(input_name);
+
+    println!("Add Department:");
+    let mut input_department = String::new();
+    std::io::stdin().read_line(&mut input_department).expect("Failed to read line");
+    let input_department = input_department.trim().split_whitespace();
+    let mut vec_department = Vec::new();
+    vec_department.push(input_department);
+
+    if(vec_name.len() == vec_department.len()){
+    }
 }
