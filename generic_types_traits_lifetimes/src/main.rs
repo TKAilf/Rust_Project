@@ -9,8 +9,8 @@ fn main() {
 }
 
 fn largest(list: &[i32]) -> i32 {
-    let mut largest = number_list[0];
-    for number in number_list {
+    let mut largest = list[0];
+    for &number in list.iter() {
         if number > largest {
             largest = number;
         }
