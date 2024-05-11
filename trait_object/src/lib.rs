@@ -105,30 +105,30 @@ pub fn notify(item: &impl Summary) {
 // }
 
 // トレイト境界を使用して、メソッド実装を条件分けする
-use std::fmt::Display;
-struct Pair<T> {
-    x: T,
-    y: T,
-}
+// use std::fmt::Display;
+// struct Pair<T> {
+//     x: T,
+//     y: T,
+// }
 
-impl<T> Pair<T> {
-    fn new(x: T, y: T) -> Self {
-        Self {
-            x,
-            y,
-        }
-    }
-}
+// impl<T> Pair<T> {
+//     fn new(x: T, y: T) -> Self {
+//         Self {
+//             x,
+//             y,
+//         }
+//     }
+// }
 
-impl<T: Display + PartialOrd> Pair<T> {
-    fn cmp_display(&self) {
-        if self.x >= self.y {
-            println!("The largest member is x = {}", self.x);
-        } else {
-            println!("The largest member is y = {}", self.y);
-        }
-    }
-}
+// impl<T: Display + PartialOrd> Pair<T> {
+//     fn cmp_display(&self) {
+//         if self.x >= self.y {
+//             println!("The largest member is x = {}", self.x);
+//         } else {
+//             println!("The largest member is y = {}", self.y);
+//         }
+//     }
+// }
 
 // 別のトレイトを実装するあらゆる型に対するトレイト実装を条件分けすることもできる。
 // ブランケット実装：トレイト境界を満たすあらゆる型にトレイトを実装すること
