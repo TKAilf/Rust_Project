@@ -1,6 +1,9 @@
 fn main() {
-    println!("Hello, world!");
-    
+    let novel = String::from("Call me Ishmael. Some years ago...");
+    let first_sentence = novel.split('.').next().expect("Could not find a '.'");
+    let i = ImportantExcerpt {
+        part: first_sentence,
+    };
 }
 
 // ライフタイムでダンリング参照を回避する
@@ -42,3 +45,11 @@ fn main() {
 //         y
 //     }
 // }
+// 究極的にライフタイム記法は、関数の引数と戻り値のライフタイムを接続することに関するものである。
+
+// 構造体定義のライフタイム注釈
+// 構造体に参照を保持させる場合、構造体の定義にライフタイム注釈を追加する必要がある
+// これは関数の引数と戻り値のライフタイムを接続することと同じ理由である
+struct ImportantExcerpt<'a> {
+    part: &'a str,
+}
