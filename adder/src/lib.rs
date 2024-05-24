@@ -2,6 +2,33 @@ pub fn add(left: usize, right: usize) -> usize {
     left + right
 }
 
+pub fn prints_and_returns_10(a: i32) -> i32 {
+    //{}という値を得た
+    println!("I got the value {}", a);
+    10
+}
+
+#[derive(Debug)]
+pub struct Rectangle {
+    pub width: u32,
+    pub height: u32,
+}
+
+impl Rectangle {
+    pub fn can_hold(&self, other: &Rectangle) -> bool {
+        self.width > other.width && self.height > other.height
+    }
+}
+
+pub fn add_two(a: i32) -> i32 {
+    a + 2
+}
+
+pub fn greeting(name: &str) -> String {
+    format!("Hello {}!", name)
+    // String::from("Hello!")
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -16,18 +43,6 @@ mod tests {
     // fn another() {
     //     panic!("Make this test fail");
     // }
-
-    #[derive(Debug)]
-    struct Rectangle {
-        width: u32,
-        height: u32,
-    }
-
-    impl Rectangle {
-        fn can_hold(&self, other: &Rectangle) -> bool {
-            self.width > other.width && self.height > other.height
-        }
-    }
 
     #[test]
     fn larger_can_hold_smaller() {
@@ -55,18 +70,9 @@ mod tests {
         assert!(!smaller.can_hold(&larger));
     }
 
-    pub fn add_two(a: i32) -> i32 {
-        a + 2
-    }
-
     #[test]
     fn it_adds_two() {
         assert_eq!(4, add_two(2));
-    }
-
-    pub fn greeting(name: &str) -> String {
-        format!("Hello {}!", name)
-        // String::from("Hello!")
     }
 
     #[test]
@@ -90,6 +96,18 @@ mod tests {
         } else {
             Err(String::from("two plus two does not equal four"))
         }
+    }
+
+    #[test]
+    fn this_test_will_pass() {
+        let value = prints_and_returns_10(4);
+        assert_eq!(10, value);
+    }
+
+    #[test]
+    fn this_test_will_fail() {
+        let value = prints_and_returns_10(8);
+        assert_eq!(5, value);
     }
 }
 
@@ -126,4 +144,7 @@ impl Guess {
 // assert_eq!マクロは、2つの引数が等しいかどうかをチェックし、等しくない場合はパニックを起こす。
 // つまり、値がtrueの場合は何も起こらず、falseの場合はpanicが発生する。
 // bool値を返す関数をテストする場合は、assert!マクロを使うことが多いということである。
+
+// 関数の中でprintln!マクロを使用すると、テストが失敗した場合にのみ出力される。
+// もし、テストが成功した時の出力も見たい場合は、cargo test -- --nocaptureを実行する。
 
