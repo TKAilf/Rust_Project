@@ -29,6 +29,10 @@ pub fn greeting(name: &str) -> String {
     // String::from("Hello!")
 }
 
+// fn internal_adder(a: i32, b: i32) -> i32 {
+//     a + b
+// }
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -130,6 +134,11 @@ mod tests {
     fn expensive_test() {
         // このテストは時間がかかる
     }
+
+    // #[test]
+    // fn internal(){
+    //     assert_eq!(4, internal_adder(2, 2))
+    // }
 }
 
 pub struct Guess {
@@ -176,3 +185,6 @@ impl Guess {
 // cargo test -- --nocapture : 通過するテストにおいて出力する値を確認したい場合
 // cargo test 関数名(全部または一部) : 関数名に一部または全部が合致した関数のみのテストを行う
 // cargo test -- --ignored : #[ignore]により退避されているテストのみを行う
+
+// Rustにおいて非公開関数をテストすることも可能である
+// internal_adder()関数を使用したテストinternalが該当する参照である
