@@ -169,3 +169,10 @@ impl Guess {
 // 関数の中でprintln!マクロを使用すると、テストが失敗した場合にのみ出力される。
 // もし、テストが成功した時の出力も見たい場合は、cargo test -- --nocaptureを実行する。
 
+// cargo testの種類一覧
+// cargo test : テストを実行
+// cargo test -- --help : cargo testのオプションについてのヘルプ
+// cargo test -- --test-threads=1 : テストを連続して行う（通常は並列）
+// cargo test -- --nocapture : 通過するテストにおいて出力する値を確認したい場合
+// cargo test 関数名(全部または一部) : 関数名に一部または全部が合致した関数のみのテストを行う
+// cargo test -- --ignored : #[ignore]により退避されているテストのみを行う
