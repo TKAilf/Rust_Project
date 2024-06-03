@@ -5,6 +5,8 @@ use std::process;
 
 use minigrep::Config;
 
+// コマンドラインで以下のコマンドを実行することで環境変数を変更できる
+// $env:CASE_INSENSITIVE=1
 fn main() {
     let args: Vec<String> = env::args().collect();
 
