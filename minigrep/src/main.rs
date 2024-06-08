@@ -8,12 +8,12 @@ use minigrep::Config;
 // コマンドラインで以下のコマンドを実行することで環境変数を変更できる
 // $env:CASE_INSENSITIVE=1
 fn main() {
-    let args: Vec<String> = env::args().collect();
+    // let args: Vec<String> = env::args().collect();
 
     // let (query, filename) = parse_config(&args);
     // let config = Config::new(&args);
     // Result型を返すようにリファクタリングしたことによる対応
-    let config = Config::new(&args).unwrap_or_else(|err| {
+    let config = Config::new(env::args()).unwrap_or_else(|err| {
         eprintln!("Problem parsing arguments: {}", err);
         process::exit(1);
     });
