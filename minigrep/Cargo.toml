@@ -6,3 +6,10 @@ edition = "2021"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
+
+# opt-level:コンパイルの最適化度合いを制御する値
+[profile.dev]
+opt-level = 1
+
+[profile.release]
+opt-level = 3
