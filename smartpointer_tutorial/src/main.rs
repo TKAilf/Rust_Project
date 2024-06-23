@@ -1,4 +1,4 @@
-use List::{Cons, Nil}
+use List::{Cons, Nil};
 
 fn main() {
     let b = Box::new(5);
