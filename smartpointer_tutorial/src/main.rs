@@ -32,6 +32,10 @@ fn main() {
 
     let m = MyBox::new(String::from("Rust"));
     hello(&m);
+
+    let _c = CustomSmartPointer{data: String::from("my stuff")};
+    let _d = CustomSmartPointer{data: String::from("other stuff")};
+    println!("CustomSmartPointers created.");
 }
 
 enum List {
@@ -68,4 +72,14 @@ impl<T> Deref for MyBox<T>{
 
 fn hello(name: &str){
     println!("Hello {}!", name);
+}
+
+struct CustomSmartPointer{
+    data: String,
+}
+
+impl Drop for CustomSmartPointer{
+    fn drop(&mut self){
+        println!("Dropping CustomSmartPointer with data {}", self.data);
+    }
 }
