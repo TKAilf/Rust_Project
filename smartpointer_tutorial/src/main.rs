@@ -1,6 +1,6 @@
 use List::{Cons, Nil};
 use std::ops::Deref;
-use std::rc::Rc;
+use std::rc::{Rc, Weak};
 use std::cell::RefCell;
 
 fn main() {
@@ -66,25 +66,65 @@ fn main() {
     println!("b after = {:?}", b);
     println!("c after = {:?}", c);
 
-    print_list2(&b);
-}
+    b.print_list2();
 
-#[derive(Debug)]
-enum List2 {
-    Cons(Rc<RefCell<i32>>, Rc<List2>),
-    Nil,
-}
+    let a = Rc::new(List3::Cons(5, RefCell::new(Rc::new(List3::Nil))));
 
-fn print_list2(list: &List2) {
-    match list {
-        List2::Cons(head, tail) => {
-            println!("{:?}", head);
-            print_list2(tail);
-        }
-        List2::Nil => {
-            println!("End of list");
-        }
+    // aの最初の参照カウント = {}
+    println!("a initial rc count = {}", Rc::strong_count(&a));
+    // aの次の要素は = {:?}
+    println!("a next item = {:?}", a.tail());
+
+    let b = Rc::new(List3::Cons(10, RefCell::new(Rc::clone(&a))));
+
+    b.print_i32();
+    // b作成後のaの参照カウント = {}
+    println!("a rc count after b creation = {}", Rc::strong_count(&a));
+    // bの最初の参照カウント = {}
+    println!("b initial rc count = {}", Rc::strong_count(&b));
+    // bの次の要素 = {:?}
+    println!("b next item = {:?}", b.tail());
+
+    if let Some(link) = a.tail() {
+        *link.borrow_mut() = Rc::clone(&b);
     }
+
+    // aを変更後のbの参照カウント = {}
+    println!("b rc count after changing a = {}", Rc::strong_count(&b));
+    // aを変更後のaの参照カウント = {}
+    println!("a rc count after changing a = {}", Rc::strong_count(&a));
+
+    // Uncomment the next line to see that we have a cycle;
+    // it will overflow the stack
+    // 次の行のコメントを外して循環していると確認してください; スタックオーバーフローします
+    // println!("a  next item = {:?}", a.tail());        // aの次の要素 = {:?}
+
+    let leaf = Rc::new(Node{
+        value: 3,
+        parent: RefCell::new(Weak::new()),
+        children: RefCell::new(vec![]),
+    });
+
+    println!("{:?}, {:?}", leaf.value, leaf.children);
+
+    println!("leaf strong = {}, weak = {}", Rc::strong_count(&leaf), Rc::weak_count(&leaf));
+
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+
+    {
+        let branch = Rc::new(Node{
+            value: 5,
+            parent: RefCell::new(Weak::new()),
+            children: RefCell::new(vec![Rc::clone(&leaf)]),
+        });
+    
+        *leaf.parent.borrow_mut() = Rc::downgrade(&branch);
+
+        println!("branch strong = {}, weak = {}", Rc::strong_count(&branch), Rc::weak_count(&branch));
+        println!("leaf strong = {}, weak = {}", Rc::strong_count(&leaf), Rc::weak_count(&leaf));
+    }
+    println!("leaf parent = {:?}", leaf.parent.borrow().upgrade());
+    println!("leaf strong = {}, weak = {}", Rc::strong_count(&leaf), Rc::weak_count(&leaf));
 }
 
 enum List {
@@ -102,6 +142,60 @@ fn print_list(list: &List) {
             println!("End of list");
         }
     }
+}
+
+#[derive(Debug)]
+enum List2 {
+    Cons(Rc<RefCell<i32>>, Rc<List2>),
+    Nil,
+}
+
+impl List2{
+    fn print_list2(&self) {
+        match self {
+            List2::Cons(head, tail) => {
+                println!("{:?}", head);
+                println!("{:?}", tail);
+                tail.print_list2();
+            }
+            List2::Nil => {
+                println!("End of list");
+            }
+        }
+    }
+}
+
+#[derive(Debug)]
+enum List3 {
+    Cons(i32, RefCell<Rc<List3>>),
+    Nil,
+}
+
+impl List3{
+    fn tail(&self) -> Option<&RefCell<Rc<List3>>>{
+        match *self{
+            List3::Cons(_, ref item) => Some(item),
+            List3::Nil => None,
+        }
+    }
+
+    fn print_i32(&self){
+        match self{
+            List3::Cons(head, _) => {
+                println!("{:?}", head);
+            }
+            List3::Nil => {
+                println!("End of list");
+            }
+        }
+    }
+}
+
+#[derive(Debug)]
+struct Node{
+    value: i32,
+    parent: RefCell<Weak<Node>>,
+    children: RefCell<Vec<Rc<Node>>>,
 }
 
 struct MyBox<T>(T);
