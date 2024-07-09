@@ -1,6 +1,8 @@
 use oop_paradigm_in_rust::gui::Draw;
 use oop_paradigm_in_rust::gui::{Button, Screen};
 
+use oop_paradigm_in_rust::blog::Post;
+
 fn main() {
     let screen = Screen {
         components: vec![
@@ -22,6 +24,17 @@ fn main() {
     };
 
     screen.run();
+
+    let mut post = Post::new();
+
+    post.add_text("I ate a salad for lunch today");
+    assert_eq!("", post.content());
+
+    post.request_review();
+    assert_eq!("", post.content());
+
+    post.approve();
+    assert_eq!("I ate a salad for lunch today", post.content());
 }
 
 struct SelectBox {
