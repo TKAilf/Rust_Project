@@ -98,6 +98,9 @@ pub mod blog {
     trait State {
         fn request_review(self: Box<Self>) -> Box<dyn State>;
         fn approve(self: Box<Self>) -> Box<dyn State>;
+        fn content<'a>(&self, _post: &'a Post) -> &'a str {
+            ""
+        }
     }
 
     struct Draft {}
@@ -133,6 +136,10 @@ pub mod blog {
 
         fn approve(self: Box<Self>) -> Box<dyn State> {
             self
+        }
+
+        fn content<'a>(&self, post: &'a Post) -> &'a str {
+            &post.content
         }
     }
 }
