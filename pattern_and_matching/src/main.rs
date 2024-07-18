@@ -124,7 +124,7 @@ fn main() {
         Point { x: 10, y: -3 },
     ];
 
-    let sum_of_squares: i32 = points.iter().map(|&Point { x, y }| x * x + y * y ).sum();
+    let sum_of_squares: i32 = points.iter().map(|&Point { x, y }| x * x + y * y).sum();
     println!("sum_of_squares: {}", sum_of_squares);
 
     let ((feet, inches), Point { x, y }) = ((3, 10), Point { x: 3, y: -10 });
@@ -155,14 +155,113 @@ fn main() {
     match numbers {
         (first, _, third, _, fifth) => {
             println!("Some numbers: {}, {}, {}", first, third, fifth);
+        }
+    }
+
+    let s = Some(String::from("Hello!"));
+
+    if let Some(_) = s {
+        println!("found a string");
+    }
+
+    println!("{:?}", s);
+
+    let origin = Point3D { x: 0, y: 0, z: 0 };
+
+    match origin {
+        Point3D { x, .. } => println!("x is {}", x),
+    }
+
+    let origin = Point3D { x: 0, y: 0, z: 0 };
+
+    match origin {
+        Point3D { x, y, z } => println!("x, y, z is {}, {}, {}", x, y, z),
+    }
+
+    let numbers = (2, 4, 8, 16, 32);
+
+    match numbers {
+        (first, .., last) => {
+            println!("Some numbers: {}, {}", first, last);
+        }
+    }
+
+    let robot_name = Some(String::from("Bors"));
+
+    match robot_name {
+        Some(ref name) => println!("Found a name: {}", name),
+        None => (),
+    }
+
+    println!("robot_name is: {:?}", robot_name);
+
+    let mut robot_name = Some(String::from("Bors"));
+
+    match robot_name {
+        Some(ref mut name) => *name = String::from("Another name"),
+        None => (),
+    }
+
+    println!("robot_name is: {:?}", robot_name);
+
+    let num = Some(4);
+
+    match num {
+        Some(x) if x < 5 => println!("less than five: {}", x),
+        Some(x) => println!("{}", x),
+        None => (),
+    }
+
+    // match guard
+    let x = Some(5);
+    let y = 10;
+
+    match x {
+        Some(50) => println!("Got 50"),
+        Some(n) if n == y => println!("Matched, n = {:?}", n),
+        _ => println!("Default case, x = {:?}", x),
+    }
+
+    println!("at the end: x = {:?}, y = {:?}", x, y);
+
+    let x = 4;
+    let y = false;
+
+    match x {
+        4 | 5 | 6 if y => println!("yes"),
+        _ => println!("no"),
+    }
+
+    let msg = MessageHello::Hello { id: 5 };
+
+    match msg {
+        MessageHello::Hello { id: id_variable @ 3..=7 } => {
+            println!("Found an id in range: {}", id_variable)
+        },
+        MessageHello::Hello { id: 10..=12 } => {
+            println!("Found an id in another range")
+        },
+        MessageHello::Hello { id } => {
+            println!("Found some other id: {}", id)
         },
     }
+}
+
+enum MessageHello {
+    Hello { id : i32 },
 }
 
 #[derive(Debug)]
 struct Point {
     x: i32,
     y: i32,
+}
+
+#[derive(Debug)]
+struct Point3D {
+    x: i32,
+    y: i32,
+    z: i32,
 }
 
 enum Message {
