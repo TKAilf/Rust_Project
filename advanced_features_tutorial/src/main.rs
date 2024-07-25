@@ -27,6 +27,24 @@ fn main() {
 
     assert_eq!(a, &mut [1, 2, 3]);
     assert_eq!(b, &mut [4, 5, 6]);
+
+    // let address = 0x012345usize;
+    // let r = address as *mut i32;
+
+    // let _slice = unsafe {
+    //     slice::from_raw_parts_mut(r, 10000)
+    // };
+    extern "C" {
+        fn abs(input: i32) -> i32;
+    }
+    unsafe {
+        println!("Absolute value of -3 according to C: {}", abs(-3));
+    }
+
+    #[no_mangle]
+    pub extern "C" fn call_from_c() {
+        println!("Just called a Rust function from C!");
+    }
 }
 
 pub fn split_at_mut(slice: &mut [i32], mid: usize) -> (&mut [i32], &mut [i32]) {
