@@ -1,3 +1,4 @@
+use std::ops::Add;
 use std::slice;
 
 static HELLO_WORLD: &str = "Hello, world!";
@@ -63,11 +64,47 @@ fn main() {
     unsafe {
         println!("COUNTER: {}", COUNTER);
     }
+
+    assert_eq!(
+        Point { x: 1, y: 0 } + Point { x: 2, y: 3 },
+        Point { x: 3, y: 3 }
+    );
+}
+
+#[derive(Debug, PartialEq)]
+struct Point {
+    x: i32,
+    y: i32,
+}
+
+impl Add for Point {
+    type Output = Point;
+
+    fn add(self, other: Point) -> Point {
+        Point {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
 }
 
 unsafe trait Foo {}
 
 unsafe impl Foo for i32 {}
+
+pub struct Counter {}
+
+pub trait Iterator {
+    type Item;
+    fn next(&mut self) -> Option<Self::Item>;
+}
+
+impl Iterator for Counter {
+    type Item = u32;
+    fn next(&mut self) -> Option<Self::Item> {
+        return Some(1);
+    }
+}
 
 pub fn split_at_mut(slice: &mut [i32], mid: usize) -> (&mut [i32], &mut [i32]) {
     let len = slice.len();
