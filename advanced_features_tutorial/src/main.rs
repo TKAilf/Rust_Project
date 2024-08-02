@@ -1,7 +1,7 @@
+use std::fmt;
 use std::fmt::Debug;
 use std::ops::Add;
 use std::slice;
-use std::fmt;
 
 static HELLO_WORLD: &str = "Hello, world!";
 
@@ -87,6 +87,30 @@ fn main() {
 
     let w = Wrapper(vec![String::from("hello"), String::from("world")]);
     println!("w = {}", w);
+
+    type Kilometers = i32;
+
+    let x: i32 = 5;
+    let y: Kilometers = 5;
+
+    println!("x + y = {}", x + y);
+
+    type Thunk = Box<dyn Fn() + Send + 'static>;
+
+    let f: Thunk = Box::new(|| println!("hi"));
+
+    fn takes_long_type(f: Thunk) {
+        f();
+    }
+
+    fn returns_long_type() -> Thunk {
+        Box::new(|| println!("hello"))
+    }
+
+    takes_long_type(f);
+
+    let g = returns_long_type();
+    g();
 }
 
 struct Wrapper(Vec<String>);
