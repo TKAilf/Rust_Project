@@ -1,5 +1,6 @@
 use std::fmt;
 use std::fmt::Debug;
+use std::io::Error;
 use std::ops::Add;
 use std::slice;
 
@@ -111,6 +112,16 @@ fn main() {
 
     let g = returns_long_type();
     g();
+}
+
+type IoResult<T> = Result<T, Error>;
+
+pub trait Write {
+    fn write(&mut self, but: &[u8]) -> IoResult<usize>;
+    fn flush(&mut self) -> IoResult<()>;
+
+    fn write_all(&mut self, buf: &[u8]) -> IoResult<()>;
+    fn write_fmt(&mut self, fmt: fmt::Arguments) -> IoResult<()>;
 }
 
 struct Wrapper(Vec<String>);
