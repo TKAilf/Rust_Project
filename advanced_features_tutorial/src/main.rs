@@ -112,6 +112,29 @@ fn main() {
 
     let g = returns_long_type();
     g();
+
+    let answer = do_twice(add_one, 5);
+    println!("The answer is: {}", answer);
+
+    let list_of_numbers = vec![1, 2, 3];
+    // let list_of_strings: Vec<String> = list_of_numbers.iter().map(|i| i.to_string()).collect();
+    let list_of_strings: Vec<String> = list_of_numbers.iter().map(ToString::to_string).collect();
+    println!("{:?}", list_of_strings);
+
+    let return_closure_value = returns_closure();
+    println!("value_result: {}", return_closure_value(0));
+}
+
+fn returns_closure() -> Box<dyn Fn(i32) -> i32> {
+    Box::new(|x| x + 1)
+}
+
+fn add_one(x: i32) -> i32 {
+    x + 1
+}
+
+fn do_twice(f: fn(i32) -> i32, arg: i32) -> i32 {
+    f(arg) + f(arg)
 }
 
 type IoResult<T> = Result<T, Error>;
