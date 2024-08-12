@@ -1,3 +1,5 @@
+use hello_macro::HelloMacro;
+use hello_macro_derive::HelloMacro;
 use std::fmt;
 use std::fmt::Debug;
 use std::io::Error;
@@ -123,6 +125,30 @@ fn main() {
 
     let return_closure_value = returns_closure();
     println!("value_result: {}", return_closure_value(0));
+
+    Pancakes::hello_macro();
+}
+
+#[derive(HelloMacro)]
+struct Pancakes;
+
+impl HelloMacro for Pancakes {
+    fn hello_macro() {
+        println!("Hello, Macro! My name is Pancakes!");
+    }
+}
+
+#[macro_export]
+macro_rules! vec {
+    ( $( $x: expr ), * ) => {
+        {
+            let mut temp_vec = Vec::new();
+            $(
+                temp_vec.push($x);
+            )*
+            temp_vec
+        }
+    };
 }
 
 fn returns_closure() -> Box<dyn Fn(i32) -> i32> {
