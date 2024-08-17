@@ -1,14 +1,22 @@
-pub struct ThreadPool;
+use std::thread;
+
+pub struct ThreadPool {
+    threads: Vec<thread::JoinHandle<()>>,
+}
 
 impl ThreadPool {
+    /// 新しいThreadPoolを生成する。
+    /// sizeはプールのスレッド数です。
+    /// # パニック
+    /// sizeが0の場合、'new'関数はパニックします。
     pub fn new(size: usize) -> ThreadPool {
-        /// 新しいThreadPoolを生成する。
-        /// sizeはプールのスレッド数です。
-        /// #パニック
-        /// sizeが0の場合、'new'関数はパニックします。
         assert!(size > 0);
 
-        ThreadPool
+        let mut threads = Vec::with_capacity(size);
+
+        for _ in 0..size {}
+
+        ThreadPool { threads }
     }
 
     pub fn execute<F>(&self, f: F)
