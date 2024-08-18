@@ -29,6 +29,7 @@ fn iterator_map(){
     assert_eq!(v2, vec![2, 3, 4]);
 }
 
+#[allow(dead_code)]
 #[derive(PartialEq, Debug)]
 struct Shoe{
     size: u32,
@@ -58,6 +59,7 @@ fn filters_by_size(){
     );
 }
 
+#[allow(dead_code)]
 struct Counter {
     count: u32,
 }

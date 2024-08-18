@@ -1,4 +1,4 @@
-extern crate hello;
+extern crate create_multi_thread_web_server;
 
 use std::fs::File;
 use std::io::prelude::*;
@@ -6,7 +6,7 @@ use std::net::TcpListener;
 use std::net::TcpStream;
 use std::thread;
 use std::time::Duration;
-use hello::ThreadPool;
+use create_multi_thread_web_server::ThreadPool;
 
 fn main() {
     let listener = TcpListener::bind("127.0.0.1:7878").unwrap();

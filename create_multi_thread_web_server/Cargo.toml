@@ -1,5 +1,5 @@
 [package]
-name = "hello"
+name = "create_multi_thread_web_server"
 version = "0.1.0"
 edition = "2021"
 

@@ -270,6 +270,7 @@ impl Add for Point {
     }
 }
 
+#[allow(dead_code)]
 unsafe trait Foo {}
 
 unsafe impl Foo for i32 {}
