@@ -1,5 +1,3 @@
-extern crate create_multi_thread_web_server;
-
 use std::fs::File;
 use std::io::prelude::*;
 use std::net::TcpListener;
